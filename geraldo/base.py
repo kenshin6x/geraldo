@@ -422,7 +422,7 @@ class Report(with_metaclass(ReportMetaclass, BaseReport)):
     cache_prefix = None
     cache_file_root = None
 
-    def __init__(self, queryset=None):
+    def __init__(self, queryset=None, **kwargs):
         super(Report, self).__init__(queryset)
 
         # Default attributes
@@ -442,6 +442,8 @@ class Report(with_metaclass(ReportMetaclass, BaseReport)):
 
         # Calls the method that set this as parent if their children
         self.set_parent_on_children()
+
+        self.kwargs = kwargs
 
     def generate_by(self, generator_class, *args, **kwargs):
         """This method uses a generator inherited class to generate a report
