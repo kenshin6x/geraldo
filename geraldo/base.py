@@ -176,7 +176,7 @@ class BaseReport(GeraldoObject):
     after_print = None          # V     after generate
     on_new_page = None
 
-    def __init__(self, queryset=None):
+    def __init__(self, queryset=None, **kwargs):
         self.queryset = queryset or self.queryset
 
         if self.queryset is None:
@@ -189,6 +189,8 @@ class BaseReport(GeraldoObject):
 
         # Calls the method that set this as parent if their children
         self.set_parent_on_children()
+
+        self.kwargs = kwargs
 
     def _set_band_attr_of_band_elements(self, band):
         if band.elements:
