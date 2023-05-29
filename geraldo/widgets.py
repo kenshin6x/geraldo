@@ -361,7 +361,10 @@ class SystemField(Label):
         if self.get_value:
             return self.get_value(self.expression, fields)
 
-        return self.expression%SystemFieldDict(self, fields)
+        try:
+            return self.expression%SystemFieldDict(self, fields)
+        except:
+            return self.expression
 
     def text(self): return self._text()
     text = property(text)
