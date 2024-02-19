@@ -15,8 +15,8 @@ CACHE_BY_QUERYSET = 1
 CACHE_BY_RENDER = 2
 DEFAULT_CACHE_STATUS = CACHE_DISABLED
 
-CACHE_BACKEND = 'geraldo.cache.FileCacheBackend'
-CACHE_FILE_ROOT = '/tmp/'
+CACHE_BACKEND = 'django.core.cache.backends.dummy.DummyCache'
+CACHE_FILE_ROOT = '/dev/null'
 
 class BaseCacheBackend(object):
     """This is the base class (and abstract too) to be inherited by any cache backend
