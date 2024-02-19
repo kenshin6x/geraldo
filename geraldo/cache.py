@@ -34,7 +34,7 @@ class BaseCacheBackend(object):
 class FileCacheBackend(BaseCacheBackend):
     """This cache backend is able to store and restore using a path on the file system."""
 
-    cache_file_root = '/tmp/'
+    cache_file_root = CACHE_FILE_ROOT
 
     def __init__(self, cache_file_root=None):
         self.cache_file_root = cache_file_root or self.cache_file_root
