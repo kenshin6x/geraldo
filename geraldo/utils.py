@@ -22,6 +22,13 @@ try:
 except ImportError:
     wraps = lambda func: func
 
+import sys
+
+if sys.version_info[0] > 2:
+    from collections.abc import Callable
+else:
+    from collections import Callable
+
 # FLAGS
 
 BAND_WIDTH = 'band-width'
@@ -107,7 +114,7 @@ def get_attr_value(obj, attr_path):
     if len(parts) > 1:
         val = get_attr_value(val, '.'.join(parts[1:]))
 
-    if isinstance(val, collections.Callable):
+    if isinstance(val, Callable):
         val = val()
 
     return val

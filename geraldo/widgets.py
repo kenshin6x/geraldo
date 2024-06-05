@@ -12,6 +12,13 @@ from .utils import get_attr_value, SYSTEM_FIELD_CHOICES, FIELD_ACTION_VALUE, FIE
         FIELD_ACTION_DISTINCT_COUNT, cm, black
 from .exceptions import AttributeNotFound
 
+import sys
+
+if sys.version_info[0] > 2:
+    from collections.abc import Callable
+else:
+    from collections import Callable
+
 class Widget(Element):
     """A widget is a value representation on the report"""
     _height = 0 #0.5*cm
@@ -81,7 +88,7 @@ class Label(Widget):
     def clone(self):
         new = super(Label, self).clone()
 
-        if not isinstance(self._text, collections.Callable):
+        if not isinstance(self._text, Callable):
             new._text = self._text
 
         return new
@@ -314,7 +321,7 @@ class ObjectValue(Label):
         try:
             return eval(expression, global_vars)
         except Exception as e:
-            if not isinstance(self.on_expression_error, collections.Callable):
+            if not isinstance(self.on_expression_error, Callable):
                 raise
 
             return self.on_expression_error(self, e, expression, self.instance)

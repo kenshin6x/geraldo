@@ -11,7 +11,13 @@ from geraldo.cache import CACHE_BY_QUERYSET, CACHE_BY_RENDER, CACHE_DISABLED,\
         make_hash_key, get_cache_backend
 from geraldo.charts import BaseChart
 from geraldo.exceptions import AbortEvent
-import collections
+
+import sys
+
+if sys.version_info[0] > 2:
+    from collections.abc import Callable
+else:
+    from collections import Callable
 
 class ReportPage(GeraldoObject):
     rect = None
@@ -926,7 +932,7 @@ class ReportGenerator(GeraldoObject):
 
         if buffer:
             # Write to file stream
-            if hasattr(self.filename, 'write') and isinstance(self.filename.write, collections.Callable):
+            if hasattr(self.filename, 'write') and isinstance(self.filename.write, Callable):
                 self.filename.write(buffer)
                 return True
 

@@ -8,7 +8,13 @@ from reportlab.lib.units import cm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.fonts import addMapping
-import collections
+
+import sys
+
+if sys.version_info[0] > 2:
+    from collections.abc import Callable
+else:
+    from collections import Callable
 
 try:
     # Try to import pyPdf, a library to combine lots of PDF files
@@ -165,7 +171,7 @@ class PDFGenerator(ReportGenerator):
             fp = file(self.filename, 'rb')
             content = fp.read()
             fp.close()
-        elif hasattr(self.filename, 'read') and isinstance(self.filename.read, collections.Callable):
+        elif hasattr(self.filename, 'read') and isinstance(self.filename.read, Callable):
             content = self.filename.read()
         else:
             return False

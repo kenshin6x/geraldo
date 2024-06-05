@@ -15,7 +15,13 @@ from reportlab.lib.colors import HexColor, getAllNamedColors
 from .utils import cm, memoize, get_attr_value
 from .cross_reference import CrossReferenceMatrix, CROSS_COLS, CROSS_ROWS
 from .graphics import Graphic
-import collections
+
+import sys
+
+if sys.version_info[0] > 2:
+    from collections.abc import Callable
+else:
+    from collections import Callable
 
 DEFAULT_TITLE_HEIGHT = 1*cm
 
@@ -192,7 +198,7 @@ class BaseChart(Graphic):
             labels = self.get_cross_data().rows()
 
         # Calculated labels
-        if isinstance(self.legend_labels, collections.Callable):
+        if isinstance(self.legend_labels, Callable):
             labels = [self.legend_labels(self, label, num) for num, label in enumerate(labels)]
         elif isinstance(self.legend_labels, str):
             labels = [self.get_cross_data().first(self.legend_labels, col=label) for label in labels]
@@ -211,7 +217,7 @@ class BaseChart(Graphic):
             labels = self.get_cross_data().cols()
 
         # Calculated labels
-        if isinstance(self.axis_labels, collections.Callable):
+        if isinstance(self.axis_labels, Callable):
             labels = [self.axis_labels(self, label, num) for num, label in enumerate(labels)]
         elif isinstance(self.axis_labels, str):
             if self.summarize_by == CROSS_ROWS:
@@ -510,7 +516,7 @@ class PieChart(BaseChart):
             pos = data.index(max(data))
         elif isinstance(self.slice_popout, int):
             pos = self.slice_popout
-        elif isinstance(self.slice_popout, collections.Callable):
+        elif isinstance(self.slice_popout, Callable):
             pos = self.slice_popout(self, chart)
 
         if pos >= 0:
